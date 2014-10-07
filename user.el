@@ -11,6 +11,12 @@
 (setq ido-use-filename-at-point nil)
 (setq make-backup-files nil) 
 
+(setq exec-path (append exec-path '("C:\\Users\\cmorgan\\AppData\\Local\\Programs\\Git\\bin")))
+
+
+;; Set the number to the number of columns to use.
+(setq-default fill-column 79)
+
 (load-file "~/.emacs.d/util.el")
 
 (global-set-key "\C-x\C-b" 'buffer-menu)
@@ -31,6 +37,14 @@
 (require 'package)
 (require 'use-package)
 
+
+(use-package magit
+  :ensure t
+  :config (progn
+	    (define-key evil-normal-state-map (kbd ",gb") 'magit-blame-mode)
+	    (global-set-key (kbd "C-x G") 'magit-status)
+        ))
+
 (use-package ido
   :ensure t
   :init (timeit
@@ -41,34 +55,34 @@
 	 (setq ido-file-extensions-order '(".py" ".js" ".emacs" t))
 	 ))
 
+(use-package markdown-mode
+  :mode ("\\.md\\'" . markdown-mode)
+  :config (progn
+	    (setq indent-tabs-mode nil)
+	    (setq evil-shift-width 2)
+	    (setq tab-width 2)))
+
 
 ;; Hide splash-screen and startup-message
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 
-(defun toggle-full-screen ()
-  "Toggles full-screen mode for Emacs window on Win32."
+
+(defun bars-off ()
+  "Toggles barsvisibility."
   (interactive)
-  (shell-command "emacs_fullscreen.exe"))
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1))
 
-(defun toggle-bars ()
-  "Toggles bars visibility."
-  (interactive)
-  (menu-bar-mode)
-  (tool-bar-mode)
-  (scroll-bar-mode))
+(bars-off)
 
-(defun toggle-full-screen-and-bars ()
-  "Toggles full-screen mode and bars."
-  (interactive)
-  (toggle-bars)
-  (toggle-full-screen))
+(autoload 'markdown-mode "markdown-mode"
+		     "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
-;; Use F11 to switch between windowed and full-screen modes
-(global-set-key [f11] 'toggle-full-screen-and-bars)
-
-;; Switch to full-screen mode during startup
-(toggle-full-screen-and-bars)
 
 
 (provide 'user)
