@@ -127,13 +127,16 @@
   :init (progn
 	  (tool-bar-mode 0)))
 
+
 (use-package hl-line
   :init (progn
 	  (global-hl-line-mode)))
 
+
 (use-package scroll-bar
   :init (progn
 	  (scroll-bar-mode 0)))
+
 
 (use-package menu-bar
   :init (progn

@@ -312,6 +312,16 @@ names to which it refers are bound."
      (magit-log-head-label-tags ((,class (:foreground ,aqua :box nil :weight bold))))
      (magit-section-title ((,class (:inherit diff-hunk-header))))
 
+     ;; magit stuff!!
+     (magit-file-header ((t (:foreground "violet"))))
+     (magit-hunk-header ((t (:foreground "blue"))))
+     (magit-header ((t (:foreground "cyan"))))
+     (magit-tag-label ((t (:background "blue" :foreground "orange"))))
+     (magit-diff-add ((t (:foreground "MediumSlateBlue"))))
+     ;;(magit-diff-del ((t (:foreground "maroon"))))
+     (magit-item-highlight ((t (:background "#000012"))))
+     
+
      (link ((,class (:foreground nil :underline t))))
      (widget-button ((,class (:underline t))))
      (widget-field ((,class (:background ,current-line :box (:line-width 1 :color ,foreground)))))

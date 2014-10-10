@@ -18,6 +18,7 @@
 (setq-default fill-column 79)
 
 (load-file "~/.emacs.d/util.el")
+(load-file "~/.emacs.d/desktop.el")
 
 (global-set-key "\C-x\C-b" 'buffer-menu)
 
@@ -38,6 +39,65 @@
 (require 'use-package)
 
 
+(use-package electric
+  :init (timeit
+	 "ELECTRIC"
+	 ;; Ignoring electric indentation
+	 (defun electric-indent-ignore-python (char)
+	   "Ignore electric indentation for 'python-mode' after CHAR."
+	   (if (equal major-mode 'python-mode)
+	       `no-indent'
+	     nil))
+	 (electric-indent-mode t)
+	 (add-hook 'electric-indent-functions
+		   'electric-indent-ignore-python)))
+
+
+;; python autocompletion
+(use-package jedi
+  :ensure t
+  :commands jedi:setup
+  :config (timeit
+	   "JEDI"
+	   (setq jedi:complete-on-dot t)
+	   (setq jedi:tooltip-method nil)))
+
+(use-package org
+  :init (progn
+	    (global-set-key (kbd "C-c o a") 'org-agenda)
+	    (global-set-key (kbd "C-c o c") 'org-capture)
+	    (global-set-key (kbd "C-c o l") 'org-store-link)
+		(setq org-log-done t)
+		))
+
+(use-package paren
+  :init (progn
+	  (show-paren-mode)))
+
+
+;; highlight whitespace
+(use-package whitespace
+  :ensure t
+  :init (timeit
+	 "WHITESPACE"
+	 (hook-into-modes 'whitespace-mode '(python-mode-hook))
+	 ;; Highlight portion of lines >79
+	 (setq whitespace-line-column 79)
+	 (setq whitespace-style '(face lines-tail))))
+
+(use-package sql
+  :init (progn
+	  (add-hook 'sql-mode-hook
+		    (lambda ()
+		      (modify-syntax-entry ?\_ "w")))))
+
+(use-package help-mode
+  :init (progn
+	  (add-hook 'help-mode-hook
+		    (lambda ()
+		      (evil-motion-state 0)))))
+
+    
 ;; tools for managing files in a project
 (use-package projectile
   :ensure t
@@ -127,22 +187,12 @@
   :config (progn
 	    (setq indent-tabs-mode nil)
 	    (setq evil-shift-width 2)
-	    (setq tab-width 2)))
-
+	    (setq tab-width 2))
+    )
 
 ;; Hide splash-screen and startup-message
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
-
-
-;; (defun bars-off ()
-;;   "Toggles barsvisibility."
-;;   (interactive)
-;;   (menu-bar-mode -1)
-;;   (tool-bar-mode -1)
-;;   (scroll-bar-mode -1))
-
-;; (bars-off)
 
 (autoload 'markdown-mode "markdown-mode"
 		     "Major mode for editing Markdown files" t)
@@ -167,6 +217,78 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
 (load-theme 'tomorrow-night-bright t)
+
+;; keep visual mode active when indenting
+(define-key evil-visual-state-map (kbd "<") (lambda ()
+  (interactive)
+  (evil-shift-left (region-beginning) (region-end))
+  (evil-normal-state)
+  (evil-visual-restore)))
+(define-key evil-visual-state-map (kbd ">") (lambda ()
+  (interactive)
+  (evil-shift-right (region-beginning) (region-end))
+  (evil-normal-state)
+  (evil-visual-restore)))
+
+;; this mode-hook is taken straight from the comments in autopair.el
+(add-hook 'python-mode-hook
+    (lambda()
+        ;;(local-set-key (kbd "C-c l") 'hs-show-block)
+        ;;(local-set-key (kbd "C-c h")  'hs-hide-block)
+        (local-set-key (kbd "C-c h")    'hs-toggle-hiding)
+        (local-set-key (kbd "C-c j")    'hs-hide-all)
+        (local-set-key (kbd "C-c k")    'hs-show-all)
+        (hs-minor-mode t)))
+
+
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[gj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
+
+(defun toggle-window-split-horiz-vert ()
+  (interactive)
+  (if (= (count-windows) 2)
+      (let* ((this-win-buffer (window-buffer))
+	     (next-win-buffer (window-buffer (next-window)))
+	     (this-win-edges (window-edges (selected-window)))
+	     (next-win-edges (window-edges (next-window)))
+	     (this-win-2nd (not (and (<= (car this-win-edges)
+					 (car next-win-edges))
+				     (<= (cadr this-win-edges)
+					 (cadr next-win-edges)))))
+	     (splitter
+	      (if (= (car this-win-edges)
+		     (car (window-edges (next-window))))
+		  'split-window-horizontally
+		'split-window-vertically)))
+	(delete-other-windows)
+	(let ((first-win (selected-window)))
+	  (funcall splitter)
+	  (if this-win-2nd (other-window 1))
+	  (set-window-buffer (selected-window) this-win-buffer)
+	  (set-window-buffer (next-window) next-win-buffer)
+	  (select-window first-win)
+	  (if this-win-2nd (other-window 1))))))
+
+(global-set-key (kbd "C-c s") 'toggle-window-split-horiz-vert)
+
+(eval-after-load 'magit
+  '(progn
+     (set-face-foreground 'magit-diff-add "green3")
+     (set-face-foreground 'magit-diff-del "red3")
+
+     (when (not window-system)
+       (set-face-background 'magit-item-highlight "black"))))
+
+
+           ;; magit stuff!!
+
 
 (provide 'user)
 ;;; user.el ends here
