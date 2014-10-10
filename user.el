@@ -38,6 +38,33 @@
 (require 'use-package)
 
 
+;; tools for managing files in a project
+(use-package projectile
+  :ensure t
+  :init (timeit
+	 "PROJECTILE"
+	  (projectile-global-mode)
+	  (define-key evil-normal-state-map "\C-p" 'projectile-find-file)))
+
+
+;; turn off cruft
+(use-package tool-bar
+  :init (progn
+	  (tool-bar-mode 0)))
+(use-package scroll-bar
+  :init (progn
+	  (scroll-bar-mode 0)))
+(use-package menu-bar
+  :init (progn
+	  (menu-bar-mode 0)))
+
+
+;; highligh current line
+(use-package hl-line
+  :init (progn
+	  (global-hl-line-mode)))
+
+
 (use-package evil
   :ensure t
   :init (timeit
@@ -108,14 +135,14 @@
 (setq inhibit-startup-message t)
 
 
-(defun bars-off ()
-  "Toggles barsvisibility."
-  (interactive)
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1))
+;; (defun bars-off ()
+;;   "Toggles barsvisibility."
+;;   (interactive)
+;;   (menu-bar-mode -1)
+;;   (tool-bar-mode -1)
+;;   (scroll-bar-mode -1))
 
-(bars-off)
+;; (bars-off)
 
 (autoload 'markdown-mode "markdown-mode"
 		     "Major mode for editing Markdown files" t)
