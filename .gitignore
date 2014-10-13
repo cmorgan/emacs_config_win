@@ -1,2 +1,8 @@
 auto-save-list
 eshell
+cache
+.smex-items
+desktop.el
+projectile-bookmarks.eld
+projectile.cache
+emacs-desktop
