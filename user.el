@@ -1,4 +1,5 @@
 (package-initialize)
+
 (evil-mode 1)
 (setq evil-default-cursor t)
 (desktop-save-mode 0)
@@ -19,7 +20,7 @@
 
 (load-file "~/.emacs.d/util.el")
 (load-file "~/.emacs.d/desktop.el")
-
+ 
 (global-set-key "\C-x\C-b" 'buffer-menu)
 
 
@@ -61,6 +62,10 @@
 	   "JEDI"
 	   (setq jedi:complete-on-dot t)
 	   (setq jedi:tooltip-method nil)))
+
+(eval-after-load "jedi"
+    '(setq jedi:server-command (list "C:\\dev\\bin\\Anaconda\\envs\\emacs-jedi\\python" jedi:server-script)))
+
 
 (use-package org
   :init (progn
@@ -180,7 +185,27 @@
 	 (ido-everywhere t)
 	 (setq ido-enable-flex-matching t)
 	 (setq ido-file-extensions-order '(".py" ".js" ".emacs" t))
-	 ))
+     (setq 
+      ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
+      ido-ignore-buffers ;; ignore these guys
+      '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
+        "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
+      ido-work-directory-list '("~/" "~/Desktop" "~/Documents" "~src")
+      ido-case-fold  t                 ; be case-insensitive
+
+      ido-enable-last-directory-history t ; remember last used dirs
+      ido-max-work-directory-list 30   ; should be enough
+      ido-max-work-file-list      50   ; remember many
+      ido-use-filename-at-point nil    ; don't use filename at point (annoying)
+      ido-use-url-at-point nil         ; don't use url at point (annoying)
+
+      ido-enable-flex-matching nil     ; don't try to be too smart
+      ido-max-prospects 8              ; don't spam my minibuffer
+      ido-confirm-unique-completion t) ; wait for RET, even with unique completion
+
+      ;; when using ido, the confirmation is rather annoying...
+      (setq confirm-nonexistent-file-or-buffer nil)
+      ))
 
 (use-package markdown-mode
   :mode ("\\.md\\'" . markdown-mode)
@@ -285,7 +310,6 @@
 
      (when (not window-system)
        (set-face-background 'magit-item-highlight "black"))))
-
 
            ;; magit stuff!!
 
