@@ -187,9 +187,9 @@
 	 (setq ido-file-extensions-order '(".py" ".js" ".emacs" t))
      (setq 
       ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
-      ido-ignore-buffers ;; ignore these guys
-      '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
-        "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
+      ;; ido-ignore-buffers ;; ignore these guys
+      ;; '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
+      ;;   "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
       ido-work-directory-list '("~/" "~/Desktop" "~/Documents" "~src")
       ido-case-fold  t                 ; be case-insensitive
 
@@ -208,22 +208,27 @@
       ))
 
 (use-package markdown-mode
-  :mode ("\\.md\\'" . markdown-mode)
+  :mode ("\\.md\\'" . gfm-mode)
   :config (progn
 	    (setq indent-tabs-mode nil)
 	    (setq evil-shift-width 2)
-	    (setq tab-width 2))
-    )
+	    (setq tab-width 2)
+        (setq auto-fill-mode -1)
+        ))
+
+
+(use-package starter-kit :ensure t)
+  
 
 ;; Hide splash-screen and startup-message
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 
-(autoload 'markdown-mode "markdown-mode"
-		     "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+;; (autoload 'markdown-mode "markdown-mode"
+;; 		     "Major mode for editing Markdown files" t)
+;; (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+;; (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+;; (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 
 (setq
