@@ -11,6 +11,7 @@
 (setq indent-line-function 'insert-tab)
 (setq ido-use-filename-at-point nil)
 (setq make-backup-files nil) 
+(server-start)
 
 (setq exec-path (append exec-path '("C:\\Users\\cmorgan\\AppData\\Local\\Programs\\Git\\bin")))
 
@@ -74,6 +75,10 @@
 	    (global-set-key (kbd "C-c o l") 'org-store-link)
 		(setq org-log-done t)
 		))
+
+
+(setq org-agenda-files (list "~/projects"))
+
 
 (use-package paren
   :init (progn
