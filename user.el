@@ -41,6 +41,43 @@
 (require 'use-package)
 
 
+(use-package iedit
+  :init
+  (defun quit-iedit-mode ()
+    "Turn off iedit-mode."
+    (interactive)
+    (iedit-mode -1)
+    (evil-mode 1))
+  (define-key iedit-mode-keymap (kbd "RET") 'quit-iedit-mode)
+  (bind-key "C-c e" 'iedit-mode)
+  )
+
+
+(use-package python
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter ("python" . python-mode)
+  :init (progn
+	  (defun python-insert-breakpoint ()
+	    "Insert Python breakpoint above point."
+	    (interactive)
+	    (evil-open-above 1)
+	    (insert "import ipdb; ipdb.set_trace()  # BREAKPOINT")
+	    (evil-normal-state)))
+  :config (timeit
+	 "PYTHON"
+
+	  (add-hook 'python-mode-hook
+		    (lambda ()
+		      ;; Underscore part of word in Python
+		      (modify-syntax-entry ?\_ "w" python-mode-syntax-table)
+		      ;; Autocompletion
+		      (jedi:setup)
+		      ;; Keybidings
+		      (define-key evil-normal-state-map (kbd ",b") 'python-insert-breakpoint)
+		      ;; Enter key executes newline-and-indent
+		      (local-set-key (kbd "RET") 'newline-and-indent)))))
+  
+
 (use-package electric
   :init (timeit
 	 "ELECTRIC"
@@ -286,6 +323,7 @@
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
 
+
 (defun toggle-window-split-horiz-vert ()
   (interactive)
   (if (= (count-windows) 2)
@@ -322,6 +360,7 @@
        (set-face-background 'magit-item-highlight "black"))))
 
            ;; magit stuff!!
+
 
 
 (provide 'user)
