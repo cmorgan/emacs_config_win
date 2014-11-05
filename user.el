@@ -25,12 +25,6 @@
 (global-set-key "\C-x\C-b" 'buffer-menu)
 
 
-(require 'recentf)
-(recentf-mode 1)
-(setq recentf-max-menu-items 25)
-(global-set-key "\C-x\ \C-r" 'recentf-open-files)
-
-
 ;; Repos
 (add-to-list 'package-archives
     '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -39,6 +33,26 @@
 ;; Packages
 (require 'package)
 (require 'use-package)
+
+
+(use-package web-mode
+  :init
+  (progn
+    (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.[gj]sp\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))))
+
+
+(use-package recentf
+  :init
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 25)
+  (global-set-key "\C-x\ \C-r" 'recentf-open-files))
 
 
 (use-package iedit
@@ -111,10 +125,7 @@
 	    (global-set-key (kbd "C-c o c") 'org-capture)
 	    (global-set-key (kbd "C-c o l") 'org-store-link)
 		(setq org-log-done t)
-		))
-
-
-(setq org-agenda-files (list "~/projects"))
+        (setq org-agenda-files (list "~/projects"))))
 
 
 (use-package paren
@@ -132,11 +143,13 @@
 	 (setq whitespace-line-column 79)
 	 (setq whitespace-style '(face lines-tail))))
 
+
 (use-package sql
   :init (progn
 	  (add-hook 'sql-mode-hook
 		    (lambda ()
 		      (modify-syntax-entry ?\_ "w")))))
+
 
 (use-package help-mode
   :init (progn
@@ -144,7 +157,7 @@
 		    (lambda ()
 		      (evil-motion-state 0)))))
 
-    
+
 ;; tools for managing files in a project
 (use-package projectile
   :ensure t
@@ -158,9 +171,13 @@
 (use-package tool-bar
   :init (progn
 	  (tool-bar-mode 0)))
+
+
 (use-package scroll-bar
   :init (progn
 	  (scroll-bar-mode 0)))
+
+
 (use-package menu-bar
   :init (progn
 	  (menu-bar-mode 0)))
@@ -212,12 +229,14 @@
 	 (define-key evil-visual-state-map (kbd ",c") 'evilnc-comment-or-uncomment-lines)
 	 ))
 
+
 (use-package magit
   :ensure t
   :config (progn
 	    (define-key evil-normal-state-map (kbd ",gb") 'magit-blame-mode)
 	    (global-set-key (kbd "C-x G") 'magit-status)
         ))
+
 
 (use-package ido
   :ensure t
@@ -302,6 +321,7 @@
   (evil-normal-state)
   (evil-visual-restore)))
 
+
 ;; this mode-hook is taken straight from the comments in autopair.el
 (add-hook 'python-mode-hook
     (lambda()
@@ -311,17 +331,6 @@
         (local-set-key (kbd "C-c j")    'hs-hide-all)
         (local-set-key (kbd "C-c k")    'hs-show-all)
         (hs-minor-mode t)))
-
-
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[gj]sp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
 
 
 (defun toggle-window-split-horiz-vert ()
@@ -351,6 +360,7 @@
 
 (global-set-key (kbd "C-c s") 'toggle-window-split-horiz-vert)
 
+
 (eval-after-load 'magit
   '(progn
      (set-face-foreground 'magit-diff-add "green3")
@@ -360,7 +370,6 @@
        (set-face-background 'magit-item-highlight "black"))))
 
            ;; magit stuff!!
-
 
 
 (provide 'user)

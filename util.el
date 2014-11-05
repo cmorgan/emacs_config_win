@@ -4,15 +4,18 @@
     (insert-file-contents fn)
     (buffer-string)))
 
+
 (defun my-beep ()
   "Play an alert sound."
   (let ((alert "/usr/share/sounds/gnome/default/alerts/glass.ogg"))
     (start-process "beep" nil "mplayer" (expand-file-name alert))))
 
+
 (defun cycle (lst)
   "Cycle elements of LST."
   (let ((item (pop lst)))
     (append lst `(,item))))
+
 
 (defmacro timeit (what &rest body)
   "Time WHAT and run BODY and report real time taken to do so."
@@ -21,6 +24,7 @@
      (let ((elapsed-time (- (float-time) start-time)))
        (message "Completed %s in %.4f seconds" ,what elapsed-time)
        elapsed-time)))
+
 
 (defmacro hook-into-modes (func modes)
   "Add FUNC to MODES hooks."
@@ -49,8 +53,6 @@
           (set-buffer-modified-p nil))))))
 
 
-
-;;   "
 (require 'ido)
 (require 'cl-lib)
 (require 'shell)
@@ -76,6 +78,7 @@
                     (when directory-parts "/")))
           possible-prefix)))
 
+
 (defun my-complete-directory-name (directory current-input)
   "Prompts user for directories in `directory', `current-input'
     is the string entered by the user till now"
@@ -93,6 +96,7 @@
     (comint-delete-input)
     (insert (concat "cd " 
             (shell-quote-argument (concat directory-path selected-name "/"))))))
+
 
 (defun my-prompt-for-dir-or-fallback ()
   "If current shell command is `cd' prompt for directory
@@ -115,6 +119,7 @@
 
 (add-hook 'ido-setup-hook 'ido-my-keys)
 
+
 (defun ido-my-keys ()
   "Add my keybindings for ido."
   (define-key ido-completion-map (kbd "<C-return>") (lambda ()
@@ -122,7 +127,7 @@
                                                         (setq my-dir-selected t)
                                                         (ido-exit-minibuffer))))
 
-  
+
 (define-key evil-insert-state-map "k" #'cofi/maybe-exit)
 (evil-define-command cofi/maybe-exit ()
   :repeat change
@@ -139,5 +144,3 @@
     (push 'escape unread-command-events))
        (t (setq unread-command-events (append unread-command-events
                           (list evt)))))))) 
-
-
