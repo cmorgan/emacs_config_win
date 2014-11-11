@@ -1,0 +1,1 @@
+(define-package "evil-escape" "20141110.1144" "Customizable key sequence to escape from insert state and everything else." '((emacs "24") (evil "1.0.9") (key-chord "0.6")) :url "https://github.com/syl20bnr/evil-escape" :keywords '("convenience" "editing" "evil"))

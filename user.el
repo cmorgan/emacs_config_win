@@ -35,6 +35,10 @@
 (require 'use-package)
 
 
+;;(add-hook 'image-mode-hook 'eimp-mode)
+(setq image-dired-external-viewer "C:\\Program Files (x86)\\IrfanView\\i_view32.exe")
+
+
 (use-package web-mode
   :init
   (progn
@@ -371,6 +375,11 @@
 
            ;; magit stuff!!
 
-
+;;(global-set-key (kbd "C-x k") 'windmove-up)
+;;(global-set-key (kbd "C-x j") 'windmove-down)
+(global-set-key (kbd "C-x l") 'windmove-right)
+(global-set-key (kbd "C-x h") 'windmove-left)
+;;http://stackoverflow.com/questions/13051632/emacs-efficient-buffer-switching-across-dual-monitors
+(global-set-key (kbd "C-x o") 'next-multiframe-window)
 (provide 'user)
 ;;; user.el ends here
