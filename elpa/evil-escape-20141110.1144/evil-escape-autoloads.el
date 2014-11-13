@@ -7,7 +7,7 @@
 ;;;;;;  0 0))
 ;;; Generated autoloads from evil-escape.el
 
-(defvar evil-escape-key-sequence (kbd "fd") "\
+(defvar evil-escape-key-sequence (kbd "jk") "\
 Two keys sequence to escape from insert state.")
 
 (custom-autoload 'evil-escape-key-sequence "evil-escape" t)

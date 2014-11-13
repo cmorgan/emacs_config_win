@@ -35,6 +35,14 @@
 (require 'use-package)
 
 
+
+(use-package evil-escape
+  ;; use fd to escape
+  :init
+  (evil-escape-mode 1)
+  (setq evil-escape-key-sequence (kbd "jk"))
+  )
+
 ;;(add-hook 'image-mode-hook 'eimp-mode)
 (setq image-dired-external-viewer "C:\\Program Files (x86)\\IrfanView\\i_view32.exe")
 
@@ -51,6 +59,10 @@
     (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))))
 
+(use-package evil-escape
+  :init
+  (evil-escape-mode 1)
+  )
 
 (use-package recentf
   :init
@@ -197,7 +209,6 @@
   :ensure t
   :init (timeit
 	 "EVIL"
-
 	 (defun new-tab ()
 	   "Open file in new tab."
 	   (interactive)
