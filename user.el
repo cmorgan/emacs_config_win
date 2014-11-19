@@ -2,7 +2,7 @@
 
 (evil-mode 1)
 (setq evil-default-cursor t)
-(desktop-save-mode 0)
+(desktop-save-mode 1)
 (global-auto-revert-mode t)
 (setq auto-save-default nil)
 
@@ -64,11 +64,21 @@
   (evil-escape-mode 1)
   )
 
+
 (use-package recentf
   :init
   (recentf-mode 1)
-  (setq recentf-max-menu-items 25)
-  (global-set-key "\C-x\ \C-r" 'recentf-open-files))
+  (setq recentf-max-menu-items 50)
+  ;;(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+  (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+
+  (defun ido-recentf-open ()
+    "Use `ido-completing-read' to \\[find-file] a recent file"
+    (interactive)
+    (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+        (message "Opening file...")
+      (message "Aborting")))
+  )
 
 
 (use-package iedit
@@ -252,6 +262,13 @@
 	    (global-set-key (kbd "C-x G") 'magit-status)
         ))
 
+;; This should already exist in your custom.el file.
+(custom-set-variables
+ ;; This should also already exist, you'll want to append onto the
+ ;; long list of modes.
+ '(evil-emacs-state-modes (quote (magit-commit-mode magit-log-mode magit-stash-mode magit-status-mode))))
+
+
 
 (use-package ido
   :ensure t
@@ -392,5 +409,19 @@
 (global-set-key (kbd "C-x h") 'windmove-left)
 ;;http://stackoverflow.com/questions/13051632/emacs-efficient-buffer-switching-across-dual-monitors
 (global-set-key (kbd "C-x o") 'next-multiframe-window)
+
+(defun steve-ido-choose-from-recentf ()
+  "Use ido to select a recently opened file from the `recentf-list'"
+  (interactive)
+  (if (and ido-use-virtual-buffers (fboundp 'ido-toggle-virtual-buffers))
+      (ido-switch-buffer)
+    (find-file (ido-completing-read "Open file: " recentf-list nil t))))
+
+(global-set-key [(meta f11)] 'steve-ido-choose-from-recentf)
+
+(add-to-list 'auto-mode-alist '("matplotlibrc\\'" . sh-mode))
+
+
 (provide 'user)
 ;;; user.el ends here
+
