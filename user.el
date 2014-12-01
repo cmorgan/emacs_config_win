@@ -29,14 +29,6 @@
 (require 'use-package)
 
 
-
-(use-package evil-escape
-  ;; use fd to escape
-  :init
-  (evil-escape-mode 1)
-  (setq evil-escape-key-sequence (kbd "jk"))
-  )
-
 ;;(add-hook 'image-mode-hook 'eimp-mode)
 (setq image-dired-external-viewer "C:\\Program Files (x86)\\IrfanView\\i_view32.exe")
 
@@ -56,8 +48,7 @@
 
 (use-package evil-escape
   :init
-  (evil-escape-mode 1)
-  )
+  (evil-escape-mode 1))
 
 
 (use-package recentf
@@ -209,6 +200,20 @@
 	  (global-hl-line-mode)))
 
 
+(use-package evil-leader
+  :ensure t
+  :init 
+  (evil-leader/set-leader ",")
+  (evil-leader/set-key "w" 'save-buffer)
+  (evil-leader/set-key "q" 'kill-buffer-and-window)
+  (global-evil-leader-mode) 
+  )
+
+
+(global-set-key "\C-x\C-m" 'execute-extended-command)
+(global-set-key "\C-c\C-m" 'execute-extended-command)
+
+
 (use-package evil
   :ensure t
   :init (timeit
@@ -246,8 +251,20 @@
 	 (define-key evil-normal-state-map (kbd ",G") 'rgrep)
 	 (define-key evil-normal-state-map (kbd ",m") 'menu-bar-mode)
 	 (define-key evil-visual-state-map (kbd ",c") 'evilnc-comment-or-uncomment-lines)
+    (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+    (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+    (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+    (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+     
 	 ))
 
+
+(use-package evil-escape
+  ;; use fd to escape
+  :init
+  (evil-escape-mode 1)
+  (setq evil-escape-key-sequence (kbd "jk"))
+  )
 
 (use-package magit
   :ensure t
