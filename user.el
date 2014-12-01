@@ -270,7 +270,7 @@
   :ensure t
   :config (progn
 	    (define-key evil-normal-state-map (kbd ",gb") 'magit-blame-mode)
-	    (global-set-key (kbd "C-x G") 'magit-status)
+	    (global-set-key (kbd "C-x C-g") 'magit-status)
         ))
 
 
