@@ -1,8 +1,10 @@
 (require 'package)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives
-             '("tromey" . "http://tromey.com/elpa/") t)
+
+
+(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("org" . "http://orgmode.org/elpa/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")))
+
 (package-initialize)
 
 (when (not package-archive-contents)
@@ -21,3 +23,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+
+
+

@@ -24,12 +24,6 @@
  
 (global-set-key "\C-x\C-b" 'buffer-menu)
 
-
-;; Repos
-(add-to-list 'package-archives
-    '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-
 ;; Packages
 (require 'package)
 (require 'use-package)
@@ -59,10 +53,12 @@
     (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))))
 
+
 (use-package evil-escape
   :init
   (evil-escape-mode 1)
   )
+
 
 (use-package recentf
   :init
@@ -104,7 +100,6 @@
 	    (evil-normal-state)))
   :config (timeit
 	 "PYTHON"
-
 	  (add-hook 'python-mode-hook
 		    (lambda ()
 		      ;; Underscore part of word in Python
@@ -115,7 +110,7 @@
 		      (define-key evil-normal-state-map (kbd ",b") 'python-insert-breakpoint)
 		      ;; Enter key executes newline-and-indent
 		      (local-set-key (kbd "RET") 'newline-and-indent)))))
-  
+
 
 (use-package electric
   :init (timeit
