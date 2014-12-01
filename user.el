@@ -67,20 +67,29 @@
 (use-package recentf
   :init
   (recentf-mode 1)
-  (setq recentf-max-menu-items 25)
-  (global-set-key "\C-x\ \C-r" 'recentf-open-files))
+  (setq recentf-max-menu-items 50)
+  (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
 
-
-(use-package iedit
-  :init
-  (defun quit-iedit-mode ()
-    "Turn off iedit-mode."
+  (defun ido-recentf-open ()
+    "Use `ido-completing-read' to \\[find-file] a recent file"
     (interactive)
-    (iedit-mode -1)
-    (evil-mode 1))
-  (define-key iedit-mode-keymap (kbd "RET") 'quit-iedit-mode)
-  (bind-key "C-c e" 'iedit-mode)
-  )
+    (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+        (message "Opening file...")
+      (message "Aborting")))
+)
+
+;; (use-package iedit
+;;   :init
+;;   (defun quit-iedit-mode ()
+;;     "Turn off iedit-mode."
+;;     (interactive)
+;;     (iedit-mode -1)
+;;     (evil-mode 1))
+;;   (define-key iedit-mode-keymap (kbd "RET") 'quit-iedit-mode)
+;;   (bind-key "C-c e" 'iedit-mode)
+;;    ;;http://stackoverflow.com/questions/13051632/emacs-efficient-buffer-switchi
+;;    (global-set-key (kbd "C-x o") 'next-multiframe-window)
+;;   )
 
 
 (use-package python
