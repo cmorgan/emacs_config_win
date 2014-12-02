@@ -1,6 +1,9 @@
 ;;; -*- coding: utf-8 -*-
-(("c:/.emacs.d/init.el" . 992)
- ("c:/.emacs.d/user.el" . 5207)
+(("c:/dev/code/gazprom.mt/power/power/eex/monitor.py" . 6950)
+ ("c:/.emacs.d/user.el" . 2191)
+ ("c:/dev/code/gazprom.mt/power/power/cron/__init__.py" . 489)
+ ("c:/dev/code/gazprom.mt/power/power/eex/eex.py" . 1779)
+ ("c:/.emacs.d/init.el" . 992)
  ("c:/.emacs.d/elpa/evil-leader-20140606.543/evil-leader-autoloads.el" . 972)
  ("c:/.emacs.d/elpa/evil-escape-20141110.1144/evil-escape-autoloads.el" . 374)
  ("c:/.emacs.d/util.el" . 1573)

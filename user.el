@@ -65,18 +65,18 @@
       (message "Aborting")))
 )
 
-;; (use-package iedit
-;;   :init
-;;   (defun quit-iedit-mode ()
-;;     "Turn off iedit-mode."
-;;     (interactive)
-;;     (iedit-mode -1)
-;;     (evil-mode 1))
-;;   (define-key iedit-mode-keymap (kbd "RET") 'quit-iedit-mode)
-;;   (bind-key "C-c e" 'iedit-mode)
-;;    ;;http://stackoverflow.com/questions/13051632/emacs-efficient-buffer-switchi
-;;    (global-set-key (kbd "C-x o") 'next-multiframe-window)
-;;   )
+(use-package iedit
+  :init
+  (defun quit-iedit-mode ()
+    "Turn off iedit-mode."
+    (interactive)
+    (iedit-mode -1)
+    (evil-mode 1))
+  (define-key iedit-mode-keymap (kbd "RET") 'quit-iedit-mode)
+  (bind-key "C-c e" 'iedit-mode)
+   ;;http://stackoverflow.com/questions/13051632/emacs-efficient-buffer-switchi
+   ;;(global-set-key (kbd "C-x o") 'next-multiframe-window)
+  )
 
 
 (use-package python
@@ -209,53 +209,54 @@
   (global-evil-leader-mode) 
   )
 
-
+;; remap M-x to something else
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 (global-set-key "\C-c\C-m" 'execute-extended-command)
 
 
+(global-set-key "\C-x\C-m" 'smex)
+
 (use-package evil
   :ensure t
   :init (timeit
-	 "EVIL"
-	 (defun new-tab ()
+    "EVIL"
+    (defun new-tab ()
 	   "Open file in new tab."
 	   (interactive)
 	   (ido-find-file-other-frame))
 
-	 (defun delete-tab ()
+	(defun delete-tab ()
 	   "Delete current tab."
 	   (interactive)
 	   (delete-frame))
 
-	 (defun next-tab ()
+	(defun next-tab ()
 	   "Switch to next tab."
 	   (interactive)
 	   (other-frame 1))
 
-	 (defun previous-tab ()
+	(defun previous-tab ()
 	   "Switch to previous tab."
 	   (interactive)
 	   (other-frame -1))
 
-	 (use-package evil-nerd-commenter
+	(use-package evil-nerd-commenter
 	   :ensure t)
 
-	 (evil-mode t)
-	 ;; (define-key evil-normal-state-map (kbd ",t") 'new-tab)
-	 (define-key evil-normal-state-map (kbd "C-w t") 'new-tab)
-	 (define-key evil-normal-state-map (kbd "C-w x") 'delete-tab)
-	 ;(define-key evil-normal-state-map (kbd "lL") 'next-tab)
-	 (define-key evil-normal-state-map (kbd "gT") 'previous-tab)
-	 (define-key evil-normal-state-map (kbd ",gg") 'vc-git-grep)
-	 (define-key evil-normal-state-map (kbd ",G") 'rgrep)
-	 (define-key evil-normal-state-map (kbd ",m") 'menu-bar-mode)
-	 (define-key evil-visual-state-map (kbd ",c") 'evilnc-comment-or-uncomment-lines)
+    (evil-mode t)
+	;; (define-key evil-normal-state-map (kbd ",t") 'new-tab)
+	(define-key evil-normal-state-map (kbd "C-w t") 'new-tab)
+	(define-key evil-normal-state-map (kbd "C-w x") 'delete-tab)
+	;(define-key evil-normal-state-map (kbd "lL") 'next-tab)
+	(define-key evil-normal-state-map (kbd "gT") 'previous-tab)
+	(define-key evil-normal-state-map (kbd ",gg") 'vc-git-grep)
+	(define-key evil-normal-state-map (kbd ",G") 'rgrep)
+	(define-key evil-normal-state-map (kbd ",m") 'menu-bar-mode)
+	(define-key evil-visual-state-map (kbd ",c") 'evilnc-comment-or-uncomment-lines)
     (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
     (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
     (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
     (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-     
 	 ))
 
 
@@ -303,6 +304,7 @@
       ;; when using ido, the confirmation is rather annoying...
       (setq confirm-nonexistent-file-or-buffer nil)
       ))
+
 
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode)
