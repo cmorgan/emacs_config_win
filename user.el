@@ -99,8 +99,33 @@
 		      (jedi:setup)
 		      ;; Keybidings
 		      (define-key evil-normal-state-map (kbd ",b") 'python-insert-breakpoint)
+
+              (define-key evil-normal-state-map (kbd ",t") 'python-pytest-buffer)
 		      ;; Enter key executes newline-and-indent
-		      (local-set-key (kbd "RET") 'newline-and-indent)))))
+		      (local-set-key (kbd "RET") 'newline-and-indent)))
+
+   
+    (defun python-current-function ()
+           (save-excursion
+             (end-of-line)
+             (beginning-of-defun)
+             (search-forward-regexp " *def \\(\\w+\\)")
+             (message (match-string-no-properties 1))))
+
+    (defun python-pytest-buffer ()
+        (interactive)
+        (async-shell-command
+        ;;(start-process "tests" "test"
+            (concat 
+            "nosetests "
+            (buffer-file-name)) "test" ))
+
+    ;; don't switch focus to a async window
+    (defadvice async-shell-command (around hide-async-windows activate)
+       (save-window-excursion
+          ad-do-it))
+
+    ))
 
 
 (use-package electric
