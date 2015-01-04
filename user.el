@@ -111,11 +111,31 @@
 		      ;; Underscore part of word in Python
 		      (modify-syntax-entry ?\_ "w" python-mode-syntax-table)
 		      ;; Autocompletion
-		      (jedi:setup)
+		      ;;(jedi:setup)
 		      ;; Keybidings
 		      (define-key evil-normal-state-map (kbd ",b") 'python-insert-breakpoint)
 		      ;; Enter key executes newline-and-indent
-		      (local-set-key (kbd "RET") 'newline-and-indent)))))
+		      (local-set-key (kbd "RET") 'newline-and-indent)))
+
+
+    ;; nasty hack for jedi
+    (with-system 'windows
+        (add-hook 'python-mode-hook
+            (lambda ()
+              ;; Underscore part of word in Python
+              (modify-syntax-entry ?\_ "w" python-mode-syntax-table)
+              ;; Autocompletion
+              (jedi:setup)
+              ;; Keybidings
+              (define-key evil-normal-state-map (kbd ",b") 'python-insert-breakpoint)
+              ;; Enter key executes newline-and-indent
+              (local-set-key (kbd "RET") 'newline-and-indent)))
+    )
+
+    )
+
+
+  )
   
 
 (use-package electric
@@ -132,6 +152,15 @@
 		   'electric-indent-ignore-python)))
 
 
+
+(defmacro with-system (type &rest body)
+  "Evaluate body if `system-type' equals type."
+  `(when (eq system-type ,type)
+     ,@body))
+
+
+(with-system 'windows
+
 ;; python autocompletion
 (use-package jedi
   :ensure t
@@ -141,8 +170,11 @@
 	   (setq jedi:complete-on-dot t)
 	   (setq jedi:tooltip-method nil)))
 
-(eval-after-load "jedi"
+
+  (eval-after-load "jedi"
     '(setq jedi:server-command (list "C:\\dev\\bin\\Anaconda\\envs\\emacs-jedi\\python" jedi:server-script)))
+
+  )
 
 
 (use-package org
@@ -151,6 +183,8 @@
 	    (global-set-key (kbd "C-c o c") 'org-capture)
 	    (global-set-key (kbd "C-c o l") 'org-store-link)
 		(setq org-log-done t)
+        (setq org-startup-indented t)
+        (setq org-hide-leading-stars t)
         (setq org-agenda-files (list "~/projects"))))
 
 
@@ -324,9 +358,25 @@
 ;; (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 
-(setq
+(with-system 'windows
+(setq 
  python-shell-interpreter "C:\\dev\\bin\\Anaconda\\python.exe"
  python-shell-interpreter-args "-i C:\\dev\\bin\\Anaconda\\Scripts\\ipython-script.py"
+ )
+)
+
+(with-system 'gnu/linux
+             (setq 
+                   python-shell-interpreter "ipython"
+                   python-shell-interpreter-args ""
+                   )
+             )
+
+             (setq 
+                   python-shell-interpreter "/home/chris/.virtualenvs/dem/bin/ipython"
+                   python-shell-interpreter-args ""
+                   )
+(setq
  python-shell-prompt-regexp "In \\[[0-9]+\\]: "
  python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
  python-shell-completion-setup-code
