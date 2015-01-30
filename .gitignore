@@ -1,3 +1,9 @@
+history
+request
+elpa_bak
+bookmarks
+backups
+ac-comphist.dat
 auto-save-list
 eshell
 cache
@@ -7,3 +13,4 @@ projectile-bookmarks.eld
 projectile.cache
 emacs-desktop
 server
+.emacs.desktop.lock

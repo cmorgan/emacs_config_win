@@ -2,7 +2,6 @@
 
 (evil-mode 1)
 (setq evil-default-cursor t)
-(desktop-save-mode 0)
 (global-auto-revert-mode t)
 (setq auto-save-default nil)
 
@@ -16,18 +15,49 @@
 (setq exec-path (append exec-path '("C:\\Users\\cmorgan\\AppData\\Local\\Programs\\Git\\bin")))
 
 
+
 ;; Set the number to the number of columns to use.
 (setq-default fill-column 79)
 
 (load-file "~/.emacs.d/util.el")
 (load-file "~/.emacs.d/desktop.el")
+(load-file "~/.emacs.d/ox-gfm.el")
  
 (global-set-key "\C-x\C-b" 'buffer-menu)
+
+
 
 ;; Packages
 (require 'package)
 (require 'use-package)
 
+
+(use-package flycheck
+  :ensure t
+  :init (timeit
+	 "FLYCHECK"
+	 (add-hook 'after-init-hook #'global-flycheck-mode)
+	 (setq flycheck-highlighting-mode 'lines)
+	 (setq flycheck-ghc-language-extensions ())
+	 (setq python-check-function "flake8")
+	 (flycheck-define-checker javascript-flow
+	   "A JavaScript syntax and style checker using Flow.
+
+See URL `http://flowtype.org/'."
+	   :command ("flow" source-original)
+	   :error-patterns
+	   ((error line-start
+	   	   (file-name)
+	   	   ":"
+	   	   line
+	   	   ":"
+	   	   (minimal-match (one-or-more (not (any ":"))))
+	   	   ": "
+	   	   (message (minimal-match (and (one-or-more anything) "\n")))
+	   	   line-end))
+	   :modes js-mode)
+	 (add-to-list 'flycheck-checkers 'javascript-flow t)
+	 (flycheck-add-next-checker 'javascript-gjslint 'javascript-flow)))
 
 ;;(add-hook 'image-mode-hook 'eimp-mode)
 (setq image-dired-external-viewer "C:\\Program Files (x86)\\IrfanView\\i_view32.exe")
@@ -65,6 +95,21 @@
       (message "Aborting")))
 )
 
+
+
+;; turn off syntax highlight and 79 char highlight when reading
+(defun read-code-mode ()
+    (interactive)
+    (flycheck-mode -1)
+    (whitespace-mode -1)
+    )
+
+(defun code-mode ()
+    (interactive)
+    (flycheck-mode 1)
+    (whitespace-mode 1)
+    )
+
 (use-package iedit
   :init
   (defun quit-iedit-mode ()
@@ -88,7 +133,23 @@
 	    (interactive)
 	    (evil-open-above 1)
 	    (insert "import ipdb; ipdb.set_trace()  # BREAKPOINT")
-	    (evil-normal-state)))
+	    (evil-normal-state))
+
+        ;; Remove trailing whitespace manually by typing C-t C-w.
+        (add-hook 'python-mode-hook
+                  (lambda ()
+                    (local-set-key (kbd "C-t C-w")
+                                   'delete-trailing-whitespace)))
+
+        ;; Automatically remove trailing whitespace when file is saved.
+        (add-hook 'python-mode-hook
+              (lambda()
+                (add-hook 'local-write-file-hooks
+                      '(lambda()
+                         (save-excursion
+                           (delete-trailing-whitespace))))))
+      )
+
   :config (timeit
 	 "PYTHON"
 	  (add-hook 'python-mode-hook
@@ -117,8 +178,9 @@
         (async-shell-command
         ;;(start-process "tests" "test"
             (concat 
-            "nosetests "
+            "nosetests -s"
             (buffer-file-name)) "test" ))
+
 
     ;; don't switch focus to a async window
     (defadvice async-shell-command (around hide-async-windows activate)
@@ -335,8 +397,10 @@
   :mode ("\\.md\\'" . gfm-mode)
   :config (progn
 	    (setq indent-tabs-mode nil)
-	    (setq evil-shift-width 2)
-	    (setq tab-width 2)
+	    (setq evil-shift-width 4)
+	    (setq tab-width 4)
+        (setq indent-line-function 'insert-tab)
+        (setq tab-stop-list (number-sequence 4 200 4))
         (setq auto-fill-mode -1)
         ))
 
@@ -439,6 +503,13 @@
 (global-set-key (kbd "C-x l") 'windmove-right)
 (global-set-key (kbd "C-x h") 'windmove-left)
 ;;http://stackoverflow.com/questions/13051632/emacs-efficient-buffer-switching-across-dual-monitors
-(global-set-key (kbd "C-x o") 'next-multiframe-window)
+(global-set-key (kbd "M-o") 'next-multiframe-window)
+
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+;; borrowed from https://github.com/purcell/emacs.d
+(require 'init-sessions)
+
+
 (provide 'user)
 ;;; user.el ends here
+
