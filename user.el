@@ -14,8 +14,6 @@
 
 (setq exec-path (append exec-path '("C:\\Users\\cmorgan\\AppData\\Local\\Programs\\Git\\bin")))
 
-
-
 ;; Set the number to the number of columns to use.
 (setq-default fill-column 79)
 
@@ -24,8 +22,6 @@
 (load-file "~/.emacs.d/ox-gfm.el")
  
 (global-set-key "\C-x\C-b" 'buffer-menu)
-
-
 
 ;; Packages
 (require 'package)
@@ -41,8 +37,7 @@
 	 (setq flycheck-ghc-language-extensions ())
 	 (setq python-check-function "flake8")
 	 (flycheck-define-checker javascript-flow
-	   "A JavaScript syntax and style checker using Flow.
-
+	   "A JavaScript syntax and style checker using Flow. 
 See URL `http://flowtype.org/'."
 	   :command ("flow" source-original)
 	   :error-patterns
@@ -59,7 +54,7 @@ See URL `http://flowtype.org/'."
 	 (add-to-list 'flycheck-checkers 'javascript-flow t)
 	 (flycheck-add-next-checker 'javascript-gjslint 'javascript-flow)))
 
-;;(add-hook 'image-mode-hook 'eimp-mode)
+;; (add-hook 'image-mode-hook 'eimp-mode)
 (setq image-dired-external-viewer "C:\\Program Files (x86)\\IrfanView\\i_view32.exe")
 
 
@@ -359,6 +354,9 @@ See URL `http://flowtype.org/'."
   :config (progn
 	    (define-key evil-normal-state-map (kbd ",gb") 'magit-blame-mode)
 	    (global-set-key (kbd "C-x C-g") 'magit-status)
+        ;; somereason on windows git bin directory is on the path but not elisp
+        ;; exec path
+        (setq exec-path (append exec-path '("C:\\dev\\bin\\git\\bin"))) 
         ))
 
 
