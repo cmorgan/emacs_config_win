@@ -507,7 +507,22 @@ See URL `http://flowtype.org/'."
 ;; borrowed from https://github.com/purcell/emacs.d
 (require 'init-sessions)
 
+(with-current-buffer "*eshell*"
 
+  (eshell-return-to-prompt)
+  (insert "python app.py")
+  ;; (eshell-send-input)
+  ;; (insert "C-c C-\\")
+  (eshell-send-input))
+
+(defun restart-app()
+  (with-current-buffer "*eshell*"
+    (interactive)
+    (comint-quit-subjob)
+    (eshell-return-to-prompt)
+    (insert "python app.py")
+    (eshell-send-input))
+)
 (provide 'user)
 ;;; user.el ends here
 
