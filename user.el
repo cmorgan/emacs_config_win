@@ -286,6 +286,10 @@
 	 (define-key evil-normal-state-map (kbd ",G") 'rgrep)
 	 (define-key evil-normal-state-map (kbd ",m") 'menu-bar-mode)
 	 (define-key evil-visual-state-map (kbd ",c") 'evilnc-comment-or-uncomment-lines)
+    (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+    (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+    (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+    (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
 	 ))
 
 
@@ -357,6 +361,10 @@
 ;; (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+(require 'virtualenvwrapper)
+(venv-initialize-interactive-shells) ;; if you want interactive shell support
+(venv-initialize-eshell) ;; if you want eshell support
+(setq venv-location "~/.virtualenvs")
 
 (with-system 'windows
 (setq 
@@ -470,7 +478,6 @@
 (global-set-key [(meta f11)] 'steve-ido-choose-from-recentf)
 
 (add-to-list 'auto-mode-alist '("matplotlibrc\\'" . sh-mode))
-
 
 (provide 'user)
 ;;; user.el ends here
