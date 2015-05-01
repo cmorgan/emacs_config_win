@@ -9,7 +9,9 @@
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
 (setq ido-use-filename-at-point nil)
-(setq make-backup-files nil) 
+;;(setq make-backup-files nil) 
+(setq backup-directory-alist `(("." . "~/.saves")))
+(setq backup-by-copying t)
 (server-start)
 
 (setq exec-path (append exec-path '("C:\\Users\\cmorgan\\AppData\\Local\\Programs\\Git\\bin")))
@@ -54,6 +56,7 @@ See URL `http://flowtype.org/'."
 	 (add-to-list 'flycheck-checkers 'javascript-flow t)
 	 (flycheck-add-next-checker 'javascript-gjslint 'javascript-flow)))
 
+
 ;; (add-hook 'image-mode-hook 'eimp-mode)
 (setq image-dired-external-viewer "C:\\Program Files (x86)\\IrfanView\\i_view32.exe")
 
@@ -68,7 +71,10 @@ See URL `http://flowtype.org/'."
     (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))))
+    (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
+    (add-hook 'webmode-mode-hook '(auto-fill-mode -1))
+
+    ))
 
 
 (use-package evil-escape
@@ -89,7 +95,6 @@ See URL `http://flowtype.org/'."
         (message "Opening file...")
       (message "Aborting")))
 )
-
 
 
 ;; turn off syntax highlight and 79 char highlight when reading
@@ -198,6 +203,10 @@ See URL `http://flowtype.org/'."
 	 (add-hook 'electric-indent-functions
 		   'electric-indent-ignore-python)))
 
+
+(defun close-all-buffers ()
+  (interactive)
+  (mapc 'kill-buffer (buffer-list)))
 
 ;; python autocompletion
 (use-package jedi
@@ -515,6 +524,7 @@ See URL `http://flowtype.org/'."
   ;; (insert "C-c C-\\")
   (eshell-send-input))
 
+
 (defun restart-app()
   (with-current-buffer "*eshell*"
     (interactive)
@@ -522,7 +532,12 @@ See URL `http://flowtype.org/'."
     (eshell-return-to-prompt)
     (insert "python app.py")
     (eshell-send-input))
-)
+  )
+
+;;(pdf-tools-install)
+(require 'openwith)
+(openwith-mode t)
+(setq openwith-associations '(("\\.pdf\\'" "C:\\Program Files (x86)\\Adobe\\Reader 11.0\\Reader\\AcroRd32.exe" (file))))
 (provide 'user)
 ;;; user.el ends here
 
