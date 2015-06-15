@@ -19,16 +19,19 @@
 ;; Set the number to the number of columns to use.
 (setq-default fill-column 79)
 
-(load-file "~/.emacs.d/util.el")
-(load-file "~/.emacs.d/desktop.el")
-(load-file "~/.emacs.d/ox-gfm.el")
- 
 (global-set-key "\C-x\C-b" 'buffer-menu)
+
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 ;; Packages
 (require 'package)
 (require 'use-package)
+(require 'util)
+(require 'desktop)
+(require 'ox-gfm)
 
+;;(warning-minimum-level :error) 
+(setq warning-minimum-level :emergency)
 
 (use-package flycheck
   :ensure t
@@ -75,6 +78,9 @@ See URL `http://flowtype.org/'."
     (add-hook 'webmode-mode-hook '(auto-fill-mode -1))
 
     ))
+
+
+(add-hook 'html-mode-hook 'turn-off-auto-fill)
 
 
 (use-package evil-escape
@@ -513,26 +519,6 @@ See URL `http://flowtype.org/'."
 (global-set-key (kbd "M-o") 'next-multiframe-window)
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-;; borrowed from https://github.com/purcell/emacs.d
-(require 'init-sessions)
-
-(with-current-buffer "*eshell*"
-
-  (eshell-return-to-prompt)
-  (insert "python app.py")
-  ;; (eshell-send-input)
-  ;; (insert "C-c C-\\")
-  (eshell-send-input))
-
-
-(defun restart-app()
-  (with-current-buffer "*eshell*"
-    (interactive)
-    (comint-quit-subjob)
-    (eshell-return-to-prompt)
-    (insert "python app.py")
-    (eshell-send-input))
-  )
 
 ;;(pdf-tools-install)
 (require 'openwith)
