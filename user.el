@@ -139,7 +139,7 @@ See URL `http://flowtype.org/'."
 	    "Insert Python breakpoint above point."
 	    (interactive)
 	    (evil-open-above 1)
-	    (insert "import ipdb; ipdb.set_trace()  # BREAKPOINT")
+	    (insert "import pdb; pdb.set_trace()  # BREAKPOINT")
 	    (evil-normal-state))
 
         ;; Remove trailing whitespace manually by typing C-t C-w.
@@ -525,6 +525,20 @@ See URL `http://flowtype.org/'."
 (require 'openwith)
 (openwith-mode t)
 (setq openwith-associations '(("\\.pdf\\'" "C:\\Program Files (x86)\\Adobe\\Reader 11.0\\Reader\\AcroRd32.exe" (file))))
+
+(require 'mmm-mode)
+(setq mmm-global-mode 'maybe)
+(mmm-add-classes
+ '((python-rst
+    :submode rst-mode
+    :front "^ *[ru]?\"\"\"[^\"]*$"
+    :back "^ *\"\"\""
+    :include-front t
+    :include-back t
+    :end-not-begin t)))
+(mmm-add-mode-ext-class 'python-mode nil 'python-rst)
+
+
 (provide 'user)
 ;;; user.el ends here
 
