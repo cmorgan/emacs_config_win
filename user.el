@@ -15,6 +15,8 @@
 
 (setq exec-path (append exec-path '("C:\\Users\\cmorgan\\AppData\\Local\\Programs\\Git\\bin")))
 
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "chromium-browser")
 
 ;; Set the number to the number of columns to use.
 (setq-default fill-column 79)
@@ -35,13 +37,12 @@
 (require 'use-package)
 
 
-
 (use-package evil-escape
-  ;; use fd to escape
-  :init
-  (evil-escape-mode 1)
-  (setq evil-escape-key-sequence (kbd "jk"))
-  )
+             ;; use fd to escape
+             :init
+             (evil-escape-mode 1)
+             (setq evil-escape-key-sequence (kbd "jk"))
+             )
 
 ;;(add-hook 'image-mode-hook 'eimp-mode)
 (setq image-dired-external-viewer "C:\\Program Files (x86)\\IrfanView\\i_view32.exe")
