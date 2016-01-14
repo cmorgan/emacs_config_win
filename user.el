@@ -1,10 +1,21 @@
 (package-initialize)
+;;(elpy-enable)
+
+(setq inhibit-startup-message t
+      inhibit-startup-echo-area-message t)
+
+(setq kill-buffer-query-functions
+  (remq 'process-kill-buffer-query-function
+         kill-buffer-query-functions))
+
 
 (evil-mode 1)
 (setq evil-default-cursor t)
 (global-auto-revert-mode t)
 (setq auto-save-default nil)
-
+(blink-cursor-mode -1) 
+(setq grep-program "\"C:/dev/bin/cygwin/bin/grep.exe\"")
+(setq find-program "\"C:/dev/bin/cygwin/bin/find.exe\"")
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
@@ -23,9 +34,19 @@
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+
+;; Prevent issues with the Windows null device (NUL)
+;; when using cygwin find with rgrep.
+(defadvice grep-compute-defaults (around grep-compute-defaults-advice-null-device)
+  "Use cygwin's /dev/null as the null-device."
+  (let ((null-device "/dev/null"))
+	ad-do-it))
+(ad-activate 'grep-compute-defaults)
+
 ;; Packages
 (require 'package)
 (require 'use-package)
+(use-package starter-kit :ensure t)
 (require 'util)
 (require 'desktop)
 ;;(require 'python-docstring)
@@ -92,7 +113,7 @@ See URL `http://flowtype.org/'."
 (use-package recentf
   :init
   (recentf-mode 1)
-  (setq recentf-max-menu-items 50)
+  (setq recentf-max-menu-items 150)
   (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
 
   (defun ido-recentf-open ()
@@ -234,6 +255,8 @@ See URL `http://flowtype.org/'."
 	    (global-set-key (kbd "C-c o c") 'org-capture)
 	    (global-set-key (kbd "C-c o l") 'org-store-link)
 		(setq org-log-done t)
+        (setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
+        (setq default-tab-width 2)
         (setq org-agenda-files (list "~/projects"))))
 
 
@@ -358,6 +381,7 @@ See URL `http://flowtype.org/'."
 	 ))
 
 
+
 (use-package evil-escape
   ;; use fd to escape
   :init
@@ -419,7 +443,6 @@ See URL `http://flowtype.org/'."
         ))
 
 
-(use-package starter-kit :ensure t)
   
 
 ;; Hide splash-screen and startup-message
@@ -434,7 +457,8 @@ See URL `http://flowtype.org/'."
 
 
 (setq
- python-shell-interpreter "C:\\dev\\bin\\Anaconda\\python.exe"
+ ;;python-shell-interpreter "C:\\dev\\bin\\Anaconda\\envs\\bmra\\python.exe"
+ python-shell-interpreter "C:\\dev\\bin\\Anaconda\\envs\\dev\\python.exe"
  python-shell-interpreter-args "-i C:\\dev\\bin\\Anaconda\\Scripts\\ipython-script.py"
  python-shell-prompt-regexp "In \\[[0-9]+\\]: "
  python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
@@ -537,7 +561,6 @@ See URL `http://flowtype.org/'."
     :include-back t
     :end-not-begin t)))
 (mmm-add-mode-ext-class 'python-mode nil 'python-rst)
-
 
 (provide 'user)
 ;;; user.el ends here
