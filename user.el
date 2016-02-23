@@ -113,7 +113,9 @@ See URL `http://flowtype.org/'."
 (use-package recentf
   :init
   (recentf-mode 1)
+  (setq recentf-max-saved-items 150)
   (setq recentf-max-menu-items 150)
+  (run-at-time nil (* 5 60) 'recentf-save-list)
   (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
 
   (defun ido-recentf-open ()
@@ -254,10 +256,13 @@ See URL `http://flowtype.org/'."
 	    (global-set-key (kbd "C-c o a") 'org-agenda)
 	    (global-set-key (kbd "C-c o c") 'org-capture)
 	    (global-set-key (kbd "C-c o l") 'org-store-link)
-		(setq org-log-done t)
-        (setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
-        (setq default-tab-width 2)
-        (setq org-agenda-files (list "~/projects"))))
+      (setq org-log-done t)
+      (setq org-indent-mode t)
+      ;;(setq org-startup-indented t)
+      (setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
+      (setq default-tab-width 2)
+      (setq org-agenda-files (list "~/projects")))
+  )
 
 
 (use-package paren
