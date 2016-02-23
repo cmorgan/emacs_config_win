@@ -301,7 +301,9 @@ See URL `http://flowtype.org/'."
   :init (timeit
 	 "PROJECTILE"
 	  (projectile-global-mode)
-	  (define-key evil-normal-state-map "\C-p" 'projectile-find-file)))
+	  ;;(define-key evil-normal-state-map "\C-p" 'projectile-find-file)
+    )
+    )
 
 
 ;; turn off cruft
