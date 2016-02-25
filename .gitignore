@@ -14,3 +14,5 @@ projectile.cache
 emacs-desktop
 server
 .emacs.desktop.lock
+places
+recentf
