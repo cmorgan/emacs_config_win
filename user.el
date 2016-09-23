@@ -7,7 +7,7 @@
 (setq kill-buffer-query-functions
   (remq 'process-kill-buffer-query-function
          kill-buffer-query-functions))
-
+(setq org-src-fontify-natively t)
 
 (evil-mode 1)
 (setq evil-default-cursor t)
@@ -24,6 +24,9 @@
 (setq backup-directory-alist `(("." . "~/.saves")))
 (setq backup-by-copying t)
 (server-start)
+;; (setq max-specpdl-size 32000)
+;; (require 'pytest)
+;;(add-to-list 'pytest-project-names "C:\\dev\\bin\\Anaconda\\Scripts\\py.test.exe")
 
 (setq exec-path (append exec-path '("C:\\Users\\cmorgan\\AppData\\Local\\Programs\\Git\\bin")))
 
@@ -34,6 +37,12 @@
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+;;; Smex
+(autoload 'smex "smex"
+  "Smex is a M-x enhancement for Emacs, it provides a convenient interface to
+your recently and most frequently used commands.")
+
+(global-set-key (kbd "M-x") 'smex)
 
 ;; Prevent issues with the Windows null device (NUL)
 ;; when using cygwin find with rgrep.
@@ -233,6 +242,9 @@ See URL `http://flowtype.org/'."
 	 (add-hook 'electric-indent-functions
 		   'electric-indent-ignore-python)))
 
+;;enable jedi autocompletion in python
+(add-hook 'python-mode-hook 'auto-complete-mode)
+(add-hook 'python-mode-hook 'jedi:ac-setup)
 
 (defun close-all-buffers ()
   (interactive)
@@ -551,6 +563,7 @@ See URL `http://flowtype.org/'."
 ;; (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 
+
 (setq
  ;;python-shell-interpreter "C:\\dev\\bin\\Anaconda\\envs\\bmra\\python.exe"
  python-shell-interpreter "C:\\dev\\bin\\Anaconda\\envs\\dev\\python.exe"
@@ -673,6 +686,13 @@ See URL `http://flowtype.org/'."
     :include-back t
     :end-not-begin t)))
 (mmm-add-mode-ext-class 'python-mode nil 'python-rst)
+
+
+(defun dos2unix ()
+  "Not exactly but it's easier to remember"
+  (interactive)
+  (set-buffer-file-coding-system 'unix 't) )
+
 
 (provide 'user)
 ;;; user.el ends here
