@@ -269,8 +269,9 @@ See URL `http://flowtype.org/'."
 	    (global-set-key (kbd "C-c o c") 'org-capture)
 	    (global-set-key (kbd "C-c o l") 'org-store-link)
       (setq org-log-done t)
-      (setq org-indent-mode t)
+      ;;(setq org-indent-mode t)
       ;;(setq org-startup-indented t)
+      (setq org-startup-indented nil)
       (setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
       (setq default-tab-width 2)
       (setq org-agenda-files (list "~/projects")))
