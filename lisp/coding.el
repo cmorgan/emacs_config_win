@@ -42,7 +42,6 @@ See URL `http://flowtype.org/'."
     (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
     (add-hook 'webmode-mode-hook '(auto-fill-mode -1))
-
     ))
 
 (provide 'code)

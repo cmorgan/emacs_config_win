@@ -2,6 +2,7 @@
 
 (require 'package)
 
+(require 'themes)
 (require 'user)
 
 ;;; Code:

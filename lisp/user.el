@@ -563,6 +563,8 @@ See URL `http://flowtype.org/'."
 ;; (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+(with-eval-after-load 'flycheck
+  (setq-default flycheck-disabled-checkers '(emacs-lisp)))
 
 
 (setq
@@ -586,11 +588,6 @@ See URL `http://flowtype.org/'."
  ;;python-shell-interpreter "C:\\dev\\bin\\Anaconda\\envs\\dev\\python.exe"
   )
 (global-set-key (kbd "C-c C-d") 'toggle-pyenv)
-
-;; Themes
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(add-to-list 'load-path "~/.emacs.d/themes")
-(load-theme 'tomorrow-night-bright t)
 
 ;; keep visual mode active when indenting
 (define-key evil-visual-state-map (kbd "<") (lambda ()
