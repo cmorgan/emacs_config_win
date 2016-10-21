@@ -53,6 +53,8 @@ your recently and most frequently used commands.")
 (ad-activate 'grep-compute-defaults)
 
 ;; Packages
+(require 'python)
+(require 'themes)
 (require 'package)
 (require 'use-package)
 (use-package starter-kit :ensure t)
@@ -60,6 +62,7 @@ your recently and most frequently used commands.")
 (require 'desktop)
 ;;(require 'python-docstring)
 (require 'ox-gfm)
+
 
 ;;(warning-minimum-level :error) 
 (setq warning-minimum-level :emergency)
@@ -263,21 +266,6 @@ See URL `http://flowtype.org/'."
     '(setq jedi:server-command (list "C:\\dev\\bin\\Anaconda\\envs\\emacs-jedi\\python" jedi:server-script)))
 
 
-(use-package org
-  :init (progn
-	    (global-set-key (kbd "C-c o a") 'org-agenda)
-	    (global-set-key (kbd "C-c o c") 'org-capture)
-	    (global-set-key (kbd "C-c o l") 'org-store-link)
-      (setq org-log-done t)
-      ;;(setq org-indent-mode t)
-      ;;(setq org-startup-indented t)
-      (setq org-startup-indented nil)
-      (setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
-      (setq default-tab-width 2)
-      (setq org-agenda-files (list "~/projects")))
-  )
-
-
 (use-package paren
   :init (progn
 	  (show-paren-mode)))
@@ -360,79 +348,6 @@ See URL `http://flowtype.org/'."
 
   (global-evil-leader-mode) 
   )
-;; use setq-default to set it for /all/ modes
-(setq mode-line-format
-  (list
-    ;; the buffer name; the file name as a tool tip
-    '(:eval (propertize "%b " 'face 'font-lock-keyword-face
-        'help-echo (buffer-file-name)))
-
-    ;; line and column
-    "(" ;; '%02' to set to 2 chars at least; prevents flickering
-      (propertize "%02l" 'face 'font-lock-type-face) ","
-      (propertize "%02c" 'face 'font-lock-type-face) 
-    ") "
-
-    ;; relative position, size of file
-    "["
-    (propertize "%p" 'face 'font-lock-constant-face) ;; % above top
-    "/"
-    (propertize "%I" 'face 'font-lock-constant-face) ;; size
-    "] "
-
-    ;; the current major mode for the buffer.
-    "["
-
-    '(:eval (propertize "%m" 'face 'font-lock-string-face
-              'help-echo buffer-file-coding-system))
-    "] "
-
-
-    "[" ;; insert vs overwrite mode, input-method in a tooltip
-    '(:eval (propertize (if overwrite-mode "Ovr" "Ins")
-              'face 'font-lock-preprocessor-face
-              'help-echo (concat "Buffer is in "
-                           (if overwrite-mode "overwrite" "insert") " mode")))
-
-    ;; was this buffer modified since the last save?
-    '(:eval (when (buffer-modified-p)
-              (concat ","  (propertize "Mod"
-                             'face 'font-lock-warning-face
-                             'help-echo "Buffer has been modified"))))
-
-    ;; is this buffer read-only?
-    '(:eval (when buffer-read-only
-              (concat ","  (propertize "RO"
-                             'face 'font-lock-type-face
-                             'help-echo "Buffer is read-only"))))  
-    "] "
-
-    ;; add the time, with the date and the emacs uptime in the tooltip
-    '(:eval (propertize (format-time-string "%H:%M")
-              'help-echo
-              (concat (format-time-string "%c; ")
-                      (emacs-uptime "Uptime:%hh"))))
-    " --"
-    ;; i don't want to see minor-modes; but if you want, uncomment this:
-    ;; minor-mode-alist  ;; list of minor modes
-    "%-" ;; fill with '-'
-    ))
-
-(setq-default mode-line-buffer-identification
-              (let ((orig  (car mode-line-buffer-identification)))
-                `(:eval (cons (concat ,orig (abbreviate-file-name default-directory))
-                              (cdr mode-line-buffer-identification)))))
-
-(setq frame-title-format
-  '(:eval
-    (if buffer-file-name
-        (replace-regexp-in-string
-         "\\\\" "/"
-         (replace-regexp-in-string
-          (regexp-quote (getenv "HOME")) "~"
-          (convert-standard-filename buffer-file-name)))
-      (buffer-name))))
-
 
 ;; remap M-x to something else
 (global-set-key "\C-x\C-m" 'execute-extended-command)
@@ -550,9 +465,7 @@ See URL `http://flowtype.org/'."
         (setq auto-fill-mode -1)
         ))
 
-
   
-
 ;; Hide splash-screen and startup-message
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
@@ -564,30 +477,8 @@ See URL `http://flowtype.org/'."
 ;; (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 (with-eval-after-load 'flycheck
-  (setq-default flycheck-disabled-checkers '(emacs-lisp)))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
-
-(setq
- ;;python-shell-interpreter "C:\\dev\\bin\\Anaconda\\envs\\bmra\\python.exe"
- python-shell-interpreter "C:/dev/bin/Anaconda/envs/dev/python.exe"
- python-shell-interpreter-args "-i C:/dev/bin/Anaconda/Scripts/ipython-script.py"
- python-shell-prompt-regexp "In \\[[0-9]+\\]: "
- python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
- ;; python-shell-completion-setup-code
- ;;   "from IPython.core.completerlib import module_completion"
- ;; python-shell-completion-module-string-code
- ;;   "';'.join(module_completion('''%s'''))\n"
- ;; python-shell-completion-string-code
- ;;   "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"
-  )
-
-(defun toggle-pyenv ()
-  (interactive)
-  (message "test!!")
-(princ "Hello world!  I'm writing to STDOUT but I'm not in quotes!")
- ;;python-shell-interpreter "C:\\dev\\bin\\Anaconda\\envs\\dev\\python.exe"
-  )
-(global-set-key (kbd "C-c C-d") 'toggle-pyenv)
 
 ;; keep visual mode active when indenting
 (define-key evil-visual-state-map (kbd "<") (lambda ()
@@ -605,7 +496,7 @@ See URL `http://flowtype.org/'."
 ;; this mode-hook is taken straight from the comments in autopair.el
 (add-hook 'python-mode-hook
     (lambda()
-        ;;(local-set-key (kbd "C-c l") 'hs-show-block)
+        (local-set-key (kbd "C-c l") 'hs-hide-level)
         ;;(local-set-key (kbd "C-c h")  'hs-hide-block)
         (local-set-key (kbd "C-c h")    'hs-toggle-hiding)
         (local-set-key (kbd "C-c j")    'hs-hide-all)
@@ -673,6 +564,25 @@ See URL `http://flowtype.org/'."
 (openwith-mode t)
 (setq openwith-associations '(("\\.pdf\\'" "C:\\Program Files (x86)\\Adobe\\Reader 11.0\\Reader\\AcroRd32.exe" (file))))
 
+
+(use-package org
+  :init (progn
+	    (global-set-key (kbd "C-c a") 'org-agenda)
+	    (global-set-key (kbd "C-c o c") 'org-capture)
+	    (global-set-key (kbd "C-c o l") 'org-store-link)
+      (setq org-log-done t)
+      ;;(setq org-indent-mode t)
+      ;;(setq org-startup-indented t)
+      (setq org-startup-indented nil)
+      (setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
+      (setq default-tab-width 2)
+      (setq org-agenda-files (list "~/org/gaz/projects.org"
+                                   "~/org/ml.org"
+                                   "~/org/pers.org")
+            
+  )))
+
+
 (require 'mmm-mode)
 (setq mmm-global-mode 'maybe)
 (mmm-add-classes
@@ -690,6 +600,11 @@ See URL `http://flowtype.org/'."
   "Not exactly but it's easier to remember"
   (interactive)
   (set-buffer-file-coding-system 'unix 't) )
+
+(with-eval-after-load 'flycheck
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+;;(add-to-list 'default-frame-alist '(foreground-color . "#E0DFDB"))
+(add-to-list 'default-frame-alist '(foreground-color . "#72716a"))
 
 
 (provide 'user)

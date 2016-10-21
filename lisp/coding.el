@@ -1,4 +1,3 @@
-
 (use-package flycheck
   :ensure t
   :init (timeit
