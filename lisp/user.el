@@ -27,6 +27,7 @@
 ;; (setq max-specpdl-size 32000)
 ;; (require 'pytest)
 ;;(add-to-list 'pytest-project-names "C:\\dev\\bin\\Anaconda\\Scripts\\py.test.exe")
+(plist-put org-format-latex-options :scale 1.5)
 
 (setq exec-path (append exec-path '("C:\\Users\\cmorgan\\AppData\\Local\\Programs\\Git\\bin")))
 

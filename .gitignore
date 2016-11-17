@@ -16,3 +16,4 @@ server
 .emacs.desktop.lock
 places
 recentf
+*.elc
