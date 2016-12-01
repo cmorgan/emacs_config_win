@@ -27,7 +27,7 @@
 ;; (setq max-specpdl-size 32000)
 ;; (require 'pytest)
 ;;(add-to-list 'pytest-project-names "C:\\dev\\bin\\Anaconda\\Scripts\\py.test.exe")
-(plist-put org-format-latex-options :scale 1.5)
+;;(plist-put org-format-latex-options :scale 1.5)
 
 (setq exec-path (append exec-path '("C:\\Users\\cmorgan\\AppData\\Local\\Programs\\Git\\bin")))
 
@@ -540,6 +540,31 @@ See URL `http://flowtype.org/'."
 
 (global-set-key (kbd "C-c s") 'toggle-window-split-horiz-vert)
 
+(set-face-attribute 'default nil :height 130)
+;;(set-default-font "Monaco 24")
+; Test char and monospace:
+; 0123456789abcdefghijklmnopqrstuvwxyz [] () :;,. !@#$^&*
+; 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ {} <> "'`  ~-_/|\?
+(cond 
+ ;; ((find-font (font-spec :name "inconsolata"))
+ ;;  (set-frame-font "inconsolata"))
+ ;; ((find-font (font-spec :name "Droid Sans Mono"))
+ ;;  (set-frame-font "Droid Sans Mono"))
+ ;; ((find-font (font-spec :name "Ubuntu Mono"))
+ ;;  (set-frame-font "Ubuntu Mono"))
+ ;; ((find-font (font-spec :name "Source Code Pro"))
+ ;;  (set-frame-font "Source Code Pro"))
+ ;;  )
+ ((find-font (font-spec :name "Consolas"))
+  (set-frame-font "Consolas"))
+  )
+ ;; (set-frame-font "inconsolata-12"))
+ ;; ((find-font (font-spec :name "DejaVu Sans Mono"))
+ ;;  (set-frame-font "DejaVu Sans Mono-12"))
+ ;; ((find-font (font-spec :name "Lucida Console"))
+ ;;  (set-frame-font "Lucida Console-12"))
+ ;; ((find-font (font-spec :name "courier"))
+ ;;  (set-frame-font "courier-12")))
 
 (eval-after-load 'magit
   '(progn
