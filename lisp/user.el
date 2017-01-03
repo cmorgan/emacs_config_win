@@ -14,8 +14,15 @@
 (global-auto-revert-mode t)
 (setq auto-save-default nil)
 (blink-cursor-mode -1) 
-(setq grep-program "\"C:/dev/bin/cygwin/bin/grep.exe\"")
-(setq find-program "\"C:/dev/bin/cygwin/bin/find.exe\"")
+;(setq grep-program "\"C:/dev/bin/cygwin/bin/grep.exe\"")
+;(setq find-program "\"C:/dev/bin/cygwin/bin/find.exe\"")
+;(setq image-dired-external-viewer "C:\\Program Files (x86)\\IrfanView\\i_view32.exe")
+;(setq exec-path (append exec-path '("C:\\Users\\cmorgan\\AppData\\Local\\Programs\\Git\\bin")))
+;;(pdf-tools-install)
+(require 'openwith)
+(openwith-mode t)
+(setq openwith-associations '(("\\.pdf\\'" "C:\\Program Files (x86)\\Adobe\\Reader 11.0\\Reader\\AcroRd32.exe" (file))))
+
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
@@ -29,7 +36,6 @@
 ;;(add-to-list 'pytest-project-names "C:\\dev\\bin\\Anaconda\\Scripts\\py.test.exe")
 ;;(plist-put org-format-latex-options :scale 1.5)
 
-(setq exec-path (append exec-path '("C:\\Users\\cmorgan\\AppData\\Local\\Programs\\Git\\bin")))
 
 ;; Set the number to the number of columns to use.
 (setq-default fill-column 79)
@@ -54,7 +60,7 @@ your recently and most frequently used commands.")
 (ad-activate 'grep-compute-defaults)
 
 ;; Packages
-(require 'python)
+(require 'my-python)
 (require 'themes)
 (require 'package)
 (require 'use-package)
@@ -96,7 +102,6 @@ See URL `http://flowtype.org/'."
 
 
 ;; (add-hook 'image-mode-hook 'eimp-mode)
-(setq image-dired-external-viewer "C:\\Program Files (x86)\\IrfanView\\i_view32.exe")
 
 
 (use-package web-mode
@@ -200,7 +205,7 @@ See URL `http://flowtype.org/'."
 		      ;; Underscore part of word in Python
 		      (modify-syntax-entry ?\_ "w" python-mode-syntax-table)
 		      ;; Autocompletion
-		      (jedi:setup)
+		      ;(jedi:setup)
 		      ;; Keybidings
 		      (define-key evil-normal-state-map (kbd ",b") 'python-insert-breakpoint)
 
@@ -255,16 +260,16 @@ See URL `http://flowtype.org/'."
   (mapc 'kill-buffer (buffer-list)))
 
 ;; python autocompletion
-(use-package jedi
-  :ensure t
-  :commands jedi:setup
-  :config (timeit
-	   "JEDI"
-	   (setq jedi:complete-on-dot t)
-	   (setq jedi:tooltip-method nil)))
+;; (use-package jedi
+;;   :ensure t
+;;   :commands jedi:setup
+;;   :config (timeit
+;; 	   "JEDI"
+;; 	   (setq jedi:complete-on-dot t)
+;; 	   (setq jedi:tooltip-method nil)))
 
-(eval-after-load "jedi"
-    '(setq jedi:server-command (list "C:\\dev\\bin\\Anaconda\\envs\\emacs-jedi\\python" jedi:server-script)))
+;; (eval-after-load "jedi"
+;;     '(setq jedi:server-command (list "C:\\dev\\bin\\Anaconda\\envs\\emacs-jedi\\python" jedi:server-script)))
 
 
 (use-package paren
@@ -588,10 +593,6 @@ See URL `http://flowtype.org/'."
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-;;(pdf-tools-install)
-(require 'openwith)
-(openwith-mode t)
-(setq openwith-associations '(("\\.pdf\\'" "C:\\Program Files (x86)\\Adobe\\Reader 11.0\\Reader\\AcroRd32.exe" (file))))
 
 
 (use-package org
@@ -607,7 +608,9 @@ See URL `http://flowtype.org/'."
       (setq default-tab-width 2)
       (setq org-agenda-files (list "~/org/gaz/projects.org"
                                    "~/org/ml.org"
-                                   "~/org/pers.org")
+                                   "~/org/pers.org"
+                                   "~/org/q.org"
+                                   )
             
   )))
 

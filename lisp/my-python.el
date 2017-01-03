@@ -1,10 +1,11 @@
 ;; python stuff
 (setq
  ;;python-shell-interpreter "C:\\dev\\bin\\Anaconda\\envs\\bmra\\python.exe"
- python-shell-interpreter "C:/dev/bin/Anaconda/envs/dev/python.exe"
- python-shell-interpreter-args "-i C:/dev/bin/Anaconda/Scripts/ipython-script.py"
- python-shell-prompt-regexp "In \\[[0-9]+\\]: "
- python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+ python-shell-interpreter "/home/chris/miniconda2/envs/q/bin/ipython"
+ python-shell-interpreter-args "--simple-prompt -i"
+ ;;python-shell-interpreter-args "-i C:/dev/bin/Anaconda/Scripts/ipython-script.py"
+ ;;python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+;;python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
  ;; python-shell-completion-setup-code
  ;;   "from IPython.core.completerlib import module_completion"
  ;; python-shell-completion-module-string-code
@@ -22,4 +23,4 @@
 (global-set-key (kbd "C-c C-d") 'toggle-pyenv)
 
 
-(provide 'python)
+(provide 'my-python)
