@@ -10,6 +10,7 @@
 (setq org-src-fontify-natively t)
 
 (evil-mode 1)
+(setq evil-want-fine-undo 'fine)
 (setq evil-default-cursor t)
 (global-auto-revert-mode t)
 (setq auto-save-default nil)
@@ -608,11 +609,10 @@ See URL `http://flowtype.org/'."
       (setq default-tab-width 2)
       (setq org-agenda-files (list "~/org/gaz/projects.org"
                                    "~/org/ml.org"
-                                   "~/org/pers.org"
                                    "~/org/q.org"
-                                   )
-            
-  )))
+                                   "~/org/pers.org"))
+      (setq org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "DONE")))
+))
 
 
 (require 'mmm-mode)
