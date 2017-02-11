@@ -545,7 +545,7 @@ See URL `http://flowtype.org/'."
 
 (global-set-key (kbd "C-c s") 'toggle-window-split-horiz-vert)
 
-(set-face-attribute 'default nil :height 130)
+(set-face-attribute 'default nil :height 110)
 ;;(set-default-font "Monaco 24")
 ; Test char and monospace:
 ; 0123456789abcdefghijklmnopqrstuvwxyz [] () :;,. !@#$^&*
