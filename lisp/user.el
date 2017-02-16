@@ -610,9 +610,10 @@ See URL `http://flowtype.org/'."
                                    "~/org/ml.org"
                                    "~/org/pers.org"
                                    "~/org/q.org"
-                                   )
-            
-  )))
+                                   ))
+      (setq org-todo-keywords
+          '((sequence "TODO" "IN-PROGRESS" "DONE")))
+      ))
 
 
 (require 'mmm-mode)
