@@ -10,6 +10,7 @@
 (setq org-src-fontify-natively t)
 
 (evil-mode 1)
+(setq evil-want-fine-undo 'fine)
 (setq evil-default-cursor t)
 (global-auto-revert-mode t)
 (setq auto-save-default nil)
@@ -545,7 +546,7 @@ See URL `http://flowtype.org/'."
 
 (global-set-key (kbd "C-c s") 'toggle-window-split-horiz-vert)
 
-(set-face-attribute 'default nil :height 130)
+(set-face-attribute 'default nil :height 110)
 ;;(set-default-font "Monaco 24")
 ; Test char and monospace:
 ; 0123456789abcdefghijklmnopqrstuvwxyz [] () :;,. !@#$^&*
@@ -611,9 +612,8 @@ See URL `http://flowtype.org/'."
                                    "~/org/pers.org"
                                    "~/org/q.org"
                                    ))
-      (setq org-todo-keywords
-          '((sequence "TODO" "IN-PROGRESS" "DONE")))
-      ))
+      (setq org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "DONE")))
+))
 
 
 (require 'mmm-mode)
