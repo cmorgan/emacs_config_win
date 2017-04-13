@@ -547,7 +547,7 @@ See URL `http://flowtype.org/'."
 
 (global-set-key (kbd "C-c s") 'toggle-window-split-horiz-vert)
 
-(set-face-attribute 'default nil :height 120)
+(set-face-attribute 'default nil :height 130)
 ;;(set-default-font "Monaco 24")
 ; Test char and monospace:
 ; 0123456789abcdefghijklmnopqrstuvwxyz [] () :;,. !@#$^&*
@@ -610,8 +610,9 @@ See URL `http://flowtype.org/'."
       (setq default-tab-width 2)
       (setq org-agenda-files (list "~/org/gaz/projects.org"
                                    "~/org/ml.org"
+                                   "~/org/pers.org"
                                    "~/org/q.org"
-                                   "~/org/pers.org"))
+                                   ))
       (setq org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "DONE")))
 ))
 

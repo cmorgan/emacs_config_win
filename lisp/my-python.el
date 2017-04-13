@@ -1,7 +1,8 @@
 ;; python stuff
 (setq
  ;;python-shell-interpreter "C:\\dev\\bin\\Anaconda\\envs\\bmra\\python.exe"
- python-shell-interpreter "/home/chris/miniconda2/envs/q/bin/ipython"
+ ;;python-shell-interpreter "/home/chris/miniconda2/envs/q/bin/ipython"
+ python-shell-interpreter "C:/dev/bin/Anaconda/envs/dev/Scripts/ipython.exe"
  python-shell-interpreter-args "--simple-prompt -i"
  ;;python-shell-interpreter-args "-i C:/dev/bin/Anaconda/Scripts/ipython-script.py"
  ;;python-shell-prompt-regexp "In \\[[0-9]+\\]: "
